@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honey & Bee 🍯</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --honey: #f5a623;
+    --deep-honey: #c97d10;
+    --amber: #e8820c;
+    --comb: #ffd166;
+    --cream: #fff8e7;
+    --dark: #2b1a06;
+    --soft: #7a4f1d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #1a0e02;
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Honeycomb Background */
+  .bg-hex {
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(245,166,35,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(232,130,12,0.10) 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .hex-grid {
+    position: fixed;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpolygon points='28,2 54,17 54,47 28,62 2,47 2,17' fill='none' stroke='%23f5a623' stroke-width='1'/%3E%3Cpolygon points='28,52 54,67 54,97 28,112 2,97 2,67' fill='none' stroke='%23f5a623' stroke-width='1'/%3E%3Cpolygon points='56,27 82,42 82,72 56,87 30,72 30,42' fill='none' stroke='%23f5a623' stroke-width='1'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  /* Floating Bees */
+  .bee {
+    position: fixed;
+    font-size: 1.6rem;
+    animation: fly linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(245,166,35,0.5));
+  }
+  .bee:nth-child(1) { top: 15%; animation-duration: 18s; animation-delay: 0s; }
+  .bee:nth-child(2) { top: 55%; animation-duration: 24s; animation-delay: -8s; font-size: 1.2rem; }
+  .bee:nth-child(3) { top: 75%; animation-duration: 20s; animation-delay: -4s; font-size: 1rem; }
+  .bee:nth-child(4) { top: 35%; animation-duration: 30s; animation-delay: -12s; font-size: 1.8rem; }
+
+  @keyframes fly {
+    0%   { left: -6%; transform: scaleX(1) translateY(0); }
+    48%  { transform: scaleX(1) translateY(-20px); }
+    50%  { left: 106%; transform: scaleX(-1) translateY(-20px); }
+    98%  { transform: scaleX(-1) translateY(0); }
+    100% { left: -6%; transform: scaleX(1) translateY(0); }
+  }
+
+  /* Dripping Honey */
+  .drips {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-around;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .drip {
+    width: 14px;
+    background: linear-gradient(to bottom, var(--honey), var(--deep-honey));
+    border-radius: 0 0 50% 50%;
+    animation: drip ease-in-out infinite;
+    opacity: 0.85;
+  }
+  .drip:nth-child(1)  { height: 60px;  animation-duration: 4s;  animation-delay: 0s; }
+  .drip:nth-child(2)  { height: 90px;  animation-duration: 5.5s; animation-delay: -1s; }
+  .drip:nth-child(3)  { height: 45px;  animation-duration: 3.8s; animation-delay: -2s; }
+  .drip:nth-child(4)  { height: 110px; animation-duration: 6s;  animation-delay: -0.5s; }
+  .drip:nth-child(5)  { height: 70px;  animation-duration: 4.5s; animation-delay: -3s; }
+  .drip:nth-child(6)  { height: 50px;  animation-duration: 5s;  animation-delay: -1.5s; }
+  .drip:nth-child(7)  { height: 80px;  animation-duration: 4.2s; animation-delay: -2.5s; }
+  .drip:nth-child(8)  { height: 65px;  animation-duration: 5.8s; animation-delay: -0.8s; }
+
+  @keyframes drip {
+    0%, 100% { transform: scaleY(0.9); filter: brightness(1); }
+    50%       { transform: scaleY(1.08); filter: brightness(1.15); }
+  }
+
+  /* Main Container */
+  .container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 40px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeDown 1s ease both;
+  }
+
+  .header .jar {
+    font-size: 4rem;
+    display: block;
+    animation: jiggle 3s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+
+  @keyframes jiggle {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50%       { transform: rotate(3deg) scale(1.05); }
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 900;
+    color: var(--honey);
+    text-shadow: 0 0 40px rgba(245,166,35,0.4), 0 2px 0 var(--deep-honey);
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  .header p {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: var(--comb);
+    font-size: 1.05rem;
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Buttons Grid */
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 580px;
+    width: 100%;
+  }
+
+  .btn {
+    position: relative;
+    padding: 26px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark);
+    background: linear-gradient(135deg, var(--comb) 0%, var(--honey) 60%, var(--amber) 100%);
+    box-shadow:
+      0 8px 32px rgba(245,166,35,0.25),
+      0 2px 0 rgba(255,255,255,0.3) inset,
+      0 -2px 0 rgba(0,0,0,0.15) inset;
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+    overflow: hidden;
+    animation: fadeUp 0.8s ease both;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .btn:nth-child(1) { animation-delay: 0.2s; }
+  .btn:nth-child(2) { animation-delay: 0.35s; }
+  .btn:nth-child(3) { animation-delay: 0.5s; }
+  .btn:nth-child(4) { animation-delay: 0.65s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 60%);
+    border-radius: inherit;
+  }
+
+  .btn .icon {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .btn:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow:
+      0 16px 40px rgba(245,166,35,0.4),
+      0 2px 0 rgba(255,255,255,0.35) inset,
+      0 -2px 0 rgba(0,0,0,0.15) inset;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 16px rgba(245,166,35,0.2);
+  }
+
+  /* Ripple */
+  .btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: scale(0);
+    animation: rippleAnim 0.6s linear;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* MODAL */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,5,0,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: linear-gradient(145deg, #2e1a06, #1a0e02);
+    border: 1.5px solid rgba(245,166,35,0.35);
+    border-radius: 28px;
+    padding: 48px 40px 40px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(245,166,35,0.15),
+      0 30px 80px rgba(0,0,0,0.6);
+    transform: scale(0.8) translateY(30px);
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .overlay.active .modal {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: bounce 1.2s ease infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--honey);
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px rgba(245,166,35,0.4);
+  }
+
+  .modal p {
+    color: var(--comb);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .modal-close {
+    margin-top: 30px;
+    padding: 12px 36px;
+    background: linear-gradient(135deg, var(--honey), var(--amber));
+    border: none;
+    border-radius: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+  }
+  .modal-close:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 28px rgba(245,166,35,0.5);
+  }
+
+  /* Floating Hearts */
+  .hearts-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .heart {
+    position: absolute;
+    bottom: -60px;
+    font-size: 1.8rem;
+    animation: floatHeart linear forwards;
+    opacity: 0;
+  }
+  @keyframes floatHeart {
+    0%   { bottom: -60px; opacity: 1; transform: translateX(0) rotate(0deg); }
+    80%  { opacity: 0.8; }
+    100% { bottom: 110vh; opacity: 0; transform: translateX(var(--drift)) rotate(var(--spin)); }
+  }
+
+  /* Honey drip bar top */
+  .honey-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--deep-honey), var(--honey), var(--comb), var(--honey), var(--deep-honey));
+    background-size: 200% 100%;
+    animation: slideGrad 3s linear infinite;
+    z-index: 50;
+  }
+  @keyframes slideGrad {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  @media (max-width: 480px) {
+    .buttons { grid-template-columns: 1fr; max-width: 320px; }
+    .modal { padding: 36px 24px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="honey-bar"></div>
+<div class="bg-hex"></div>
+<div class="hex-grid"></div>
+
+<!-- Dripping Honey -->
+<div class="drips">
+  <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+  <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+  <div class="drip"></div><div class="drip"></div>
+</div>
+
+<!-- Floating Bees -->
+<div class="bee">🐝</div>
+<div class="bee">🐝</div>
+<div class="bee">🐝</div>
+<div class="bee">🐝</div>
+
+<!-- Hearts Layer -->
+<div class="hearts-container" id="heartsContainer"></div>
+
+<!-- Main -->
+<div class="container">
+  <div class="header">
+    <span class="jar">🍯</span>
+    <h1>Honey & Bee</h1>
+    <p>A sweet little corner, just for you~</p>
+  </div>
+
+  <div class="buttons">
+    <button class="btn" data-modal="hello">
+      <span class="icon">🌸</span>
+      Hello Honey
+    </button>
+    <button class="btn" data-modal="thought">
+      <span class="icon">🐝</span>
+      Pumpkin's Thought
+    </button>
+    <button class="btn" data-modal="entertainment">
+      <span class="icon">🎮</span>
+      Pumpkin's Entertainment
+    </button>
+    <button class="btn" data-modal="love">
+      <span class="icon">💛</span>
+      I Love You
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <span class="modal-icon" id="modalIcon">🍯</span>
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <button class="modal-close" id="modalClose">Close 🍯</button>
+  </div>
+</div>
+
+<script>
+  const modals = {
+    hello: {
+      icon: '🌸',
+      title: 'Hello Honey!',
+      text: 'Hello Honey! Long time no see. Your Pumpkin missed you 🐝💛'
+    },
+    thought: {
+      icon: '🐝',
+      title: "Pumpkin's Thought",
+      text: "Pumpkin thinks you hate him, would you clear his mind? 🍯"
+    },
+    entertainment: {
+      icon: '🎮',
+      title: "Pumpkin's Entertainment",
+      text: "Pumpkin loves you right? Come some day and we'll play games together. 🎉🐝"
+    },
+    love: {
+      icon: '💛',
+      title: 'I Love You Too',
+      text: 'I love you too 💛',
+      hearts: true
+    }
+  };
+
+  const overlay = document.getElementById('overlay');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(key) {
+    const data = modals[key];
+    document.getElementById('modalIcon').textContent = data.icon;
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalText').textContent = data.text;
+    overlay.classList.add('active');
+    if (data.hearts) launchHearts();
+  }
+
+  function closeModal() {
+    overlay.classList.remove('active');
+  }
+
+  modalClose.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  function launchHearts() {
+    const container = document.getElementById('heartsContainer');
+    const emojis = ['❤️','💛','🧡','💕','💗','💖','💝','🍯','🐝'];
+    for (let i = 0; i < 28; i++) {
+      setTimeout(function() {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.fontSize = (1.2 + Math.random() * 1.6) + 'rem';
+        const duration = 2.5 + Math.random() * 2.5;
+        h.style.animationDuration = duration + 's';
+        h.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
+        h.style.setProperty('--spin', (Math.random() * 60 - 30) + 'deg');
+        container.appendChild(h);
+        setTimeout(function() { h.remove(); }, duration * 1000 + 100);
+      }, i * 90);
+    }
+  }
+
+  // Attach modal open + ripple to each button
+  document.querySelectorAll('.btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      // Ripple
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      r.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+      btn.appendChild(r);
+      setTimeout(function() { r.remove(); }, 700);
+
+      // Open modal
+      const key = btn.getAttribute('data-modal');
+      if (key) openModal(key);
+    });
+  });
+</script>
+</body>
+</html>
